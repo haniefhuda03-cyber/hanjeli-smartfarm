@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(echo \"dev server starting \\(pid $!\\)\")",
+      "mcp__browsermcp__browser_navigate",
+      "Bash(node measure_auth.mjs)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "serena",
+    "browsermcp",
+    "magic-mcp"
+  ]
+}

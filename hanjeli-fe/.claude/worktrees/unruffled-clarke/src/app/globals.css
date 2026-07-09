@@ -1,0 +1,246 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+
+  --toast-success-bg: #ecfdf5;
+  --toast-success-border: #34d399;
+  --toast-success-fg: #065f46;
+  --toast-success-icon: #059669;
+
+  --toast-error-bg: #fef2f2;
+  --toast-error-border: #f87171;
+  --toast-error-fg: #7f1d1d;
+  --toast-error-icon: #dc2626;
+
+  --toast-warning-bg: #fffbeb;
+  --toast-warning-border: #fbbf24;
+  --toast-warning-fg: #78350f;
+  --toast-warning-icon: #d97706;
+
+  --toast-info-bg: #eff6ff;
+  --toast-info-border: #60a5fa;
+  --toast-info-fg: #1e3a8a;
+  --toast-info-icon: #2563eb;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+
+    --toast-success-bg: #022c22;
+    --toast-success-border: #10b981;
+    --toast-success-fg: #d1fae5;
+    --toast-success-icon: #34d399;
+
+    --toast-error-bg: #2a0a0a;
+    --toast-error-border: #ef4444;
+    --toast-error-fg: #fee2e2;
+    --toast-error-icon: #f87171;
+
+    --toast-warning-bg: #2a1c00;
+    --toast-warning-border: #f59e0b;
+    --toast-warning-fg: #fef3c7;
+    --toast-warning-icon: #fbbf24;
+
+    --toast-info-bg: #0a1a2f;
+    --toast-info-border: #3b82f6;
+    --toast-info-fg: #dbeafe;
+    --toast-info-icon: #60a5fa;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+/* ─────────────────────────────────────────────
+   Sonner toast — custom theme & responsiveness
+   ───────────────────────────────────────────── */
+
+[data-sonner-toaster] {
+  --width: 384px;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+}
+
+.app-toast {
+  border-radius: 14px !important;
+  border-width: 1px !important;
+  border-style: solid !important;
+  padding: 14px 16px !important;
+  box-shadow:
+    0 12px 32px -12px rgba(15, 23, 42, 0.18),
+    0 4px 12px -6px rgba(15, 23, 42, 0.08) !important;
+  backdrop-filter: saturate(140%) blur(6px);
+  -webkit-backdrop-filter: saturate(140%) blur(6px);
+  align-items: flex-start !important;
+}
+
+.app-toast__icon {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.toast-icon {
+  width: 22px;
+  height: 22px;
+  display: block;
+}
+
+.toast-icon--success {
+  color: var(--toast-success-icon);
+}
+.toast-icon--error {
+  color: var(--toast-error-icon);
+}
+.toast-icon--warning {
+  color: var(--toast-warning-icon);
+}
+.toast-icon--info {
+  color: var(--toast-info-icon);
+}
+
+.app-toast__title {
+  font-weight: 600 !important;
+  font-size: 0.95rem !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.005em;
+}
+
+.app-toast__description {
+  font-size: 0.825rem !important;
+  line-height: 1.45 !important;
+  margin-top: 2px;
+  opacity: 0.9;
+}
+
+.app-toast__action {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 6px 12px !important;
+  font-size: 0.8rem !important;
+}
+
+.app-toast__close {
+  border-radius: 8px !important;
+}
+
+.toast-variant--success.app-toast {
+  background: var(--toast-success-bg) !important;
+  border-color: var(--toast-success-border) !important;
+  color: var(--toast-success-fg) !important;
+}
+
+.toast-variant--error.app-toast {
+  background: var(--toast-error-bg) !important;
+  border-color: var(--toast-error-border) !important;
+  color: var(--toast-error-fg) !important;
+}
+
+.toast-variant--warning.app-toast {
+  background: var(--toast-warning-bg) !important;
+  border-color: var(--toast-warning-border) !important;
+  color: var(--toast-warning-fg) !important;
+}
+
+.toast-variant--info.app-toast {
+  background: var(--toast-info-bg) !important;
+  border-color: var(--toast-info-border) !important;
+  color: var(--toast-info-fg) !important;
+}
+
+/* ─── Responsiveness ─────────────────────────── */
+
+/* Phones (<= 640px): full-width minus safe-area, larger tap targets */
+@media (max-width: 640px) {
+  [data-sonner-toaster] {
+    --width: calc(100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right));
+    left: max(env(safe-area-inset-left), 12px) !important;
+    right: max(env(safe-area-inset-right), 12px) !important;
+    transform: none !important;
+  }
+  [data-sonner-toaster][data-x-position='right'],
+  [data-sonner-toaster][data-x-position='left'] {
+    left: max(env(safe-area-inset-left), 12px) !important;
+    right: max(env(safe-area-inset-right), 12px) !important;
+  }
+  .app-toast {
+    padding: 14px 14px !important;
+    border-radius: 12px !important;
+  }
+  .app-toast__title {
+    font-size: 0.92rem !important;
+  }
+  .app-toast__description {
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Tablets / iPad (641–1023px) */
+@media (min-width: 641px) and (max-width: 1023px) {
+  [data-sonner-toaster] {
+    --width: 380px;
+  }
+  .app-toast {
+    padding: 14px 16px !important;
+  }
+  .app-toast__title {
+    font-size: 0.95rem !important;
+  }
+  .app-toast__description {
+    font-size: 0.825rem !important;
+  }
+}
+
+/* Laptops (1024–1439px) */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  [data-sonner-toaster] {
+    --width: 400px;
+  }
+  .app-toast {
+    padding: 16px 18px !important;
+  }
+  .app-toast__title {
+    font-size: 1rem !important;
+  }
+}
+
+/* Desktops (>= 1440px) */
+@media (min-width: 1440px) {
+  [data-sonner-toaster] {
+    --width: 440px;
+  }
+  .app-toast {
+    padding: 18px 20px !important;
+    border-radius: 16px !important;
+  }
+  .app-toast__title {
+    font-size: 1.05rem !important;
+  }
+  .app-toast__description {
+    font-size: 0.875rem !important;
+  }
+  .toast-icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin {
+    animation: none !important;
+  }
+}

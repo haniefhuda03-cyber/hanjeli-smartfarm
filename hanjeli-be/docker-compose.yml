@@ -1,0 +1,134 @@
+# ═══════════════════════════════════════════════════════════
+# Hanjeli SmartFarm — Docker Compose (Full Stack)
+#
+# Menyalakan semua infrastruktur yang dibutuhkan:
+#   1. PostgreSQL + TimescaleDB (Database utama)
+#   2. Redis (Caching & Pub/Sub)
+#   3. Eclipse Mosquitto (MQTT Broker untuk IoT/ESP32)
+#   4. Hanjeli Backend (NestJS API Server)
+#
+# Cara pakai:
+#   Development : docker compose up -d db redis mqtt
+#   Full deploy : docker compose up -d
+#   Lihat log   : docker compose logs -f hanjeli-api
+#   Matikan     : docker compose down
+#   Reset DB    : docker compose down -v  (HAPUS SEMUA DATA!)
+#
+# ═══════════════════════════════════════════════════════════
+
+services:
+  # ─────────────────────────────────────────────
+  #  PostgreSQL + TimescaleDB
+  # ─────────────────────────────────────────────
+  db:
+    image: timescale/timescaledb:latest-pg16
+    container_name: hanjeli-db
+    restart: unless-stopped
+    ports:
+      - "${DB_PORT:-5433}:5432"
+    environment:
+      POSTGRES_USER: ${DB_USERNAME:-hanjeli_admin}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-hanjeli_password_super_aman}
+      POSTGRES_DB: ${DB_NAME:-hanjeli_smartfarm_db}
+    volumes:
+      - hanjeli_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-hanjeli_admin} -d ${DB_NAME:-hanjeli_smartfarm_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ─────────────────────────────────────────────
+  #  Redis (Cache & Pub/Sub)
+  # ─────────────────────────────────────────────
+  redis:
+    image: redis:7-alpine
+    container_name: hanjeli-redis
+    restart: unless-stopped
+    ports:
+      - "${REDIS_PORT:-6379}:6379"
+    command: >
+      redis-server
+      --maxmemory 128mb
+      --maxmemory-policy allkeys-lru
+      --appendonly yes
+    volumes:
+      - hanjeli_redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # ─────────────────────────────────────────────
+  #  Eclipse Mosquitto (MQTT Broker untuk ESP32)
+  # ─────────────────────────────────────────────
+  mqtt:
+    image: eclipse-mosquitto:2
+    container_name: hanjeli-mqtt
+    restart: unless-stopped
+    ports:
+      - "1883:1883"   # MQTT standard (ESP32 via IP LAN host)
+      # Port alternatif untuk backend di host: mosquitto native Windows
+      # (service pihak lain) mengikat 127.0.0.1:1883 dan membayangi
+      # docker-proxy untuk koneksi loopback — 1884 menjamin backend
+      # terhubung ke broker Docker yang sama dengan perangkat ESP32.
+      - "1884:1883"
+      - "9001:9001"   # WebSocket (untuk debugging via browser)
+    volumes:
+      - ./docker/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - ./docker/mosquitto/password.txt:/mosquitto/config/password.txt:ro
+      - hanjeli_mqtt_data:/mosquitto/data
+      - hanjeli_mqtt_log:/mosquitto/log
+    healthcheck:
+      test: ["CMD-SHELL", "mosquitto_sub -h localhost -u 'hanjeli_device' -P 'hanjeli_mqtt_2026' -t '$$SYS/broker/uptime' -C 1 -W 3 || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  # ─────────────────────────────────────────────
+  #  Hanjeli Backend (NestJS API)
+  # ─────────────────────────────────────────────
+  hanjeli-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hanjeli-api
+    profiles: ["production"]
+    restart: unless-stopped
+    ports:
+      - "${PORT:-3000}:3000"
+    env_file:
+      - .env
+    environment:
+      # Override hostname agar mengarah ke container Docker,
+      # bukan ke localhost komputer.
+      DB_HOST: db
+      REDIS_HOST: redis
+      MQTT_BROKER_URL: mqtt://mqtt:1883
+      MQTT_USERNAME: hanjeli_device
+      MQTT_PASSWORD: hanjeli_mqtt_2026
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      mqtt:
+        condition: service_healthy
+    volumes:
+      - ./uploads:/app/uploads
+
+# ─────────────────────────────────────────────
+#  Named Volumes (Data Persisten)
+# ─────────────────────────────────────────────
+volumes:
+  hanjeli_pgdata:
+    name: hanjeli_pgdata
+  hanjeli_redis_data:
+    name: hanjeli_redis_data
+  hanjeli_mqtt_data:
+    name: hanjeli_mqtt_data
+  hanjeli_mqtt_log:
+    name: hanjeli_mqtt_log

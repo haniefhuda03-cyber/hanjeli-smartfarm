@@ -1,0 +1,1166 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  /* ═══ Organic Vitality — Design Token Palette ═══ */
+
+  /* Surface / Background */
+  --surface: #fbfaee;
+  --surface-dim: #dbdbcf;
+  --surface-bright: #fbfaee;
+  --surface-container-lowest: #ffffff;
+  --surface-container-low: #f5f4e8;
+  --surface-container: #efeee3;
+  --surface-container-high: #e9e9dd;
+  --surface-container-highest: #e4e3d7;
+
+  /* Text / On-Surface */
+  --on-surface: #1b1c15;
+  --on-surface-variant: #3c4a42;
+  --inverse-surface: #303129;
+  --inverse-on-surface: #f2f1e5;
+
+  /* Outline */
+  --outline: #6c7a71;
+  --outline-variant: #bbcabf;
+
+  /* Primary — Emerald Lush */
+  --primary: #006c49;
+  --on-primary: #ffffff;
+  --primary-container: #10b981;
+  --on-primary-container: #00422b;
+  --inverse-primary: #4edea3;
+  --surface-tint: #006c49;
+
+  /* Secondary — Sun Yellow */
+  --secondary: #795900;
+  --on-secondary: #ffffff;
+  --secondary-container: #ffc329;
+  --on-secondary-container: #6f5100;
+
+  /* Tertiary — Leaf Lime */
+  --tertiary: #446900;
+  --on-tertiary: #ffffff;
+  --tertiary-container: #78b300;
+  --on-tertiary-container: #283f00;
+
+  /* Error */
+  --error: #ba1a1a;
+  --on-error: #ffffff;
+  --error-container: #ffdad6;
+  --on-error-container: #93000a;
+
+  /* Fixed Palette */
+  --primary-fixed: #6ffbbe;
+  --primary-fixed-dim: #4edea3;
+  --on-primary-fixed: #002113;
+  --on-primary-fixed-variant: #005236;
+  --secondary-fixed: #ffdf9f;
+  --secondary-fixed-dim: #f9bd22;
+  --on-secondary-fixed: #261a00;
+  --on-secondary-fixed-variant: #5c4300;
+  --tertiary-fixed: #b2f746;
+  --tertiary-fixed-dim: #98da27;
+  --on-tertiary-fixed: #121f00;
+  --on-tertiary-fixed-variant: #334f00;
+
+  /* ═══ Semantic Aliases (shadcn/ui mapping) ═══ */
+  --background: #fbfaee;
+  --page: #d4d3c7;
+  --foreground: #1b1c15;
+  --card: #ffffff;
+  --card-foreground: #1b1c15;
+  --popover: #ffffff;
+  --popover-foreground: #1b1c15;
+  --primary-color: #006c49;
+  --primary-foreground: #ffffff;
+  --secondary-color: #795900;
+  --secondary-foreground: #ffffff;
+  --muted: #e4e3d7;
+  --muted-foreground: #6c7a71;
+  --accent: #10b981;
+  --accent-foreground: #00422b;
+  --destructive: #ba1a1a;
+  --destructive-foreground: #ffffff;
+  --warning: #f9bd22;
+  --warning-foreground: #5c4300;
+  --warning-strong: #ffc329;
+  --success: #10b981;
+  --success-foreground: #00422b;
+  --leaf: #98da27;
+  --leaf-strong: #78b300;
+  --leaf-foreground: #283f00;
+  --surface-elevated: #fafaf6;
+  --surface-soft: #f5f4e8;
+  --surface-muted: #e4e3d7;
+  --surface-sage: #e9eadd;
+  --surface-sage-soft: #f0efea;
+  --surface-leaf: #dfe6d1;
+  --surface-leaf-soft: #e3eadb;
+  --surface-warm: #f1ead4;
+  --surface-blush: #f1e1df;
+  --primary-dark: #005236;
+  --primary-darker: #00422b;
+  --primary-deepest: #002113;
+  --primary-shade: #004030;
+  --primary-shade-soft: #003020;
+  --border: #bbcabf;
+  --input: #bbcabf;
+  --ring: #006c49;
+  --chart-1: #006c49;
+  --chart-2: #10b981;
+  --chart-3: #78b300;
+  --chart-4: #ffc329;
+  --chart-5: #4edea3;
+  --radius: 1rem;
+  --sidebar: #ffffff;
+  --sidebar-foreground: #006c49;
+  --sidebar-primary: #006c49;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #6ffbbe;
+  --sidebar-accent-foreground: #00422b;
+  --sidebar-border: #bbcabf;
+  --sidebar-ring: #006c49;
+}
+
+@theme {
+  --font-sans: var(--font-lexend), "Lexend", system-ui, sans-serif;
+  --font-display:
+    var(--font-jakarta), "Plus Jakarta Sans", var(--font-lexend), system-ui,
+    sans-serif;
+  --color-background: var(--background);
+  --color-page: var(--page);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary-color);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary-color);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-error: var(--error);
+  --color-error-container: var(--error-container);
+  --color-on-error-container: var(--on-error-container);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-strong: var(--warning-strong);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-leaf: var(--leaf);
+  --color-leaf-strong: var(--leaf-strong);
+  --color-leaf-foreground: var(--leaf-foreground);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-soft: var(--surface-soft);
+  --color-surface-muted: var(--surface-muted);
+  --color-surface-sage: var(--surface-sage);
+  --color-surface-sage-soft: var(--surface-sage-soft);
+  --color-surface-leaf: var(--surface-leaf);
+  --color-surface-leaf-soft: var(--surface-leaf-soft);
+  --color-surface-warm: var(--surface-warm);
+  --color-surface-blush: var(--surface-blush);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-darker: var(--primary-darker);
+  --color-primary-deepest: var(--primary-deepest);
+  --color-primary-shade: var(--primary-shade);
+  --color-primary-shade-soft: var(--primary-shade-soft);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  *::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  html {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+  }
+  html::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  body {
+    @apply bg-background text-foreground;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  body::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+  }
+  body.modal-open,
+  body:has([aria-modal="true"]) {
+    overflow: hidden;
+  }
+  html.modal-open {
+    overflow: hidden;
+  }
+  body.modal-open .dashboard-glass-root main,
+  body:has([aria-modal="true"]) .dashboard-glass-root main {
+    overflow: hidden !important;
+    overscroll-behavior: contain;
+  }
+  body.modal-open .dashboard-glass-root,
+  body:has([aria-modal="true"]) .dashboard-glass-root,
+  [aria-modal="true"] {
+    overscroll-behavior: contain;
+  }
+}
+
+/* Hide scrollbar for horizontal scroll containers */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* ═══ Dashboard Glassmorphism ═══ */
+
+/* Hide scrollbar in glass dashboard — clean look, scroll still works */
+.dashboard-glass-root main {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.dashboard-glass-root main::-webkit-scrollbar {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Sonner Toast — Hanjeli Custom Styles
+   Hybrid approach: CSS-class theming + Hanjeli color palette
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Toast Color Scheme Variables ─────────────────────────────── */
+
+:root {
+  --toast-success-bg: #ecfdf5;
+  --toast-success-border: #a7f3d0;
+  --toast-success-fg: #065f46;
+  --toast-success-icon: #059669;
+
+  --toast-error-bg: #fef2f2;
+  --toast-error-border: #fecaca;
+  --toast-error-fg: #991b1b;
+  --toast-error-icon: #dc2626;
+
+  --toast-warning-bg: #fffbeb;
+  --toast-warning-border: #fde68a;
+  --toast-warning-fg: #92400e;
+  --toast-warning-icon: #d97706;
+
+  --toast-info-bg: #eff6ff;
+  --toast-info-border: #bfdbfe;
+  --toast-info-fg: #1e40af;
+  --toast-info-icon: #2563eb;
+}
+
+/* ─── Animation Keyframes ──────────────────────────────────────── */
+
+@keyframes toast-slide-in {
+  0% {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes toast-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+}
+
+@keyframes bell-ring {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(15deg); }
+  50% { transform: rotate(-15deg); }
+  75% { transform: rotate(10deg); }
+  85% { transform: rotate(-10deg); }
+}
+
+/* ─── Sonner Container ─────────────────────────────────────────── */
+
+[data-sonner-toaster] {
+  --width: 420px;
+  font-family: var(--font-lexend), "Lexend", system-ui, sans-serif !important;
+  z-index: 9999 !important;
+}
+
+/* ─── App Toast — Base card styling ────────────────────────────── */
+
+.app-toast {
+  border-radius: 16px !important;
+  border-width: 1.5px !important;
+  border-style: solid !important;
+  padding: 14px 16px !important;
+  box-shadow:
+    0 8px 32px -12px rgba(0, 108, 73, 0.12),
+    0 4px 12px -6px rgba(0, 108, 73, 0.06) !important;
+  backdrop-filter: saturate(140%) blur(6px);
+  -webkit-backdrop-filter: saturate(140%) blur(6px);
+  align-items: flex-start !important;
+  animation: toast-slide-in 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.app-toast__icon {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.app-toast__title {
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  line-height: 1.35 !important;
+  letter-spacing: -0.005em;
+}
+
+.app-toast__description {
+  font-size: 0.8rem !important;
+  line-height: 1.45 !important;
+  margin-top: 2px;
+  opacity: 0.85;
+}
+
+.app-toast__action {
+  border-radius: 8px !important;
+  font-weight: 600 !important;
+  padding: 6px 12px !important;
+  font-size: 0.8rem !important;
+}
+
+.app-toast__close {
+  border-radius: 8px !important;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.app-toast:hover .app-toast__close {
+  opacity: 1;
+}
+
+/* ─── Toast Icon Sizing ────────────────────────────────────────── */
+
+.toast-icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+}
+
+.toast-icon--success {
+  color: var(--toast-success-icon);
+}
+.toast-icon--error {
+  color: var(--toast-error-icon);
+}
+.toast-icon--warning {
+  color: var(--toast-warning-icon);
+}
+.toast-icon--info {
+  color: var(--toast-info-icon);
+}
+
+/* ─── Toast Variant Theming ────────────────────────────────────── */
+
+.toast-variant--success.app-toast {
+  background: var(--toast-success-bg) !important;
+  border-color: var(--toast-success-border) !important;
+  color: var(--toast-success-fg) !important;
+}
+
+.toast-variant--error.app-toast {
+  background: var(--toast-error-bg) !important;
+  border-color: var(--toast-error-border) !important;
+  color: var(--toast-error-fg) !important;
+}
+
+.toast-variant--warning.app-toast {
+  background: var(--toast-warning-bg) !important;
+  border-color: var(--toast-warning-border) !important;
+  color: var(--toast-warning-fg) !important;
+}
+
+.toast-variant--info.app-toast {
+  background: var(--toast-info-bg) !important;
+  border-color: var(--toast-info-border) !important;
+  color: var(--toast-info-fg) !important;
+}
+
+/* ─── Custom Toast wrapper — transparent shell ─────────────────── */
+/* toast.custom() renders our own CustomToast inside Sonner's wrapper.
+   We strip Sonner's default styles so only our inline styles show. */
+
+[data-sonner-toast] {
+  padding: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: var(--width) !important;
+}
+
+[data-sonner-toast] [data-close-button] {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  border: none;
+  border-radius: 8px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+[data-sonner-toast]:hover [data-close-button] {
+  opacity: 1;
+}
+
+/* ─── Responsive Breakpoints ───────────────────────────────────── */
+
+/* Phones (<= 640px): full-width, safe-area aware */
+@media (max-width: 640px) {
+  [data-sonner-toaster] {
+    --width: calc(
+      100vw - 24px - env(safe-area-inset-left) - env(safe-area-inset-right)
+    );
+    top: calc(env(safe-area-inset-top, 0px) + 12px) !important;
+    left: max(env(safe-area-inset-left), 12px) !important;
+    right: max(env(safe-area-inset-right), 12px) !important;
+    transform: none !important;
+  }
+  [data-sonner-toaster][data-x-position="right"],
+  [data-sonner-toaster][data-x-position="left"] {
+    left: max(env(safe-area-inset-left), 12px) !important;
+    right: max(env(safe-area-inset-right), 12px) !important;
+  }
+  [data-sonner-toaster] [data-sonner-toast] {
+    width: 100% !important;
+  }
+  .app-toast {
+    padding: 14px 14px !important;
+    border-radius: 14px !important;
+  }
+  .app-toast__title {
+    font-size: 0.88rem !important;
+  }
+  .app-toast__description {
+    font-size: 0.78rem !important;
+  }
+}
+
+/* Tablets (641–1023px) */
+@media (min-width: 641px) and (max-width: 1023px) {
+  [data-sonner-toaster] {
+    --width: 400px;
+    top: calc(env(safe-area-inset-top, 0px) + 16px) !important;
+  }
+  .app-toast {
+    padding: 14px 16px !important;
+  }
+}
+
+/* Desktop (≥ 1024px): top-center positioning */
+@media (min-width: 1024px) {
+  [data-sonner-toaster] {
+    --width: 420px !important;
+    top: 20px !important;
+  }
+  .app-toast {
+    padding: 16px 18px !important;
+  }
+  .app-toast__title {
+    font-size: 0.95rem !important;
+  }
+}
+
+/* Large Desktops (≥ 1440px) */
+@media (min-width: 1440px) {
+  [data-sonner-toaster] {
+    --width: 440px;
+  }
+  .app-toast {
+    padding: 18px 20px !important;
+    border-radius: 18px !important;
+  }
+  .app-toast__title {
+    font-size: 1rem !important;
+  }
+  .app-toast__description {
+    font-size: 0.85rem !important;
+  }
+  .toast-icon {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-spin {
+    animation: none !important;
+  }
+  .app-toast {
+    animation: none !important;
+  }
+}
+
+/* ─── Home page: notification bell button (extracted from inline boxShadow) ─── */
+.home-notif-button {
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.25),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.18),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+}
+.home-notif-button:hover {
+  background: rgba(16, 185, 129, 0.3);
+  box-shadow:
+    inset 2px 2px 4px rgba(0, 0, 0, 0.15),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.12),
+    0 6px 18px rgba(16, 185, 129, 0.3);
+  transform: translateY(-1px);
+}
+.home-notif-button:active {
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow:
+    inset 6px 6px 12px rgba(0, 0, 0, 0.35),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.12);
+  transform: scale(0.93);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Neumorphic Shadow System — Organic Vitality
+   
+   Consolidated from inline shadow-[] values for DRY theming.
+   Uses warm neutral rgba(143,139,120) for structural depth,
+   paired with white highlights — per DESIGN.md neumorphic exception.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* ─── Raised Surface (cards, containers) ───────────────────────── */
+.neu-raised {
+  box-shadow:
+    8px 8px 16px rgba(143, 139, 120, 0.55),
+    -8px -8px 16px rgba(255, 255, 255, 0.95);
+}
+.neu-raised-hover:hover {
+  box-shadow:
+    12px 12px 24px rgba(143, 139, 120, 0.62),
+    -10px -10px 22px rgba(255, 255, 255, 1);
+}
+
+/* ─── Raised Small (mobile cards, compact elements) ────────────── */
+.neu-raised-sm {
+  box-shadow:
+    3px 3px 8px rgba(143, 139, 120, 0.35),
+    -3px -3px 8px rgba(255, 255, 255, 0.9);
+}
+
+/* ─── Raised Large (hero cards, primary CTAs) ──────────────────── */
+.neu-raised-lg {
+  box-shadow:
+    10px 10px 22px rgba(143, 139, 120, 0.55),
+    -10px -10px 22px rgba(255, 255, 255, 0.95);
+}
+
+/* ─── Inset (inputs, recessed surfaces, table wells) ───────────── */
+.neu-inset {
+  box-shadow:
+    inset 3px 3px 6px rgba(143, 139, 120, 0.6),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.95);
+}
+
+/* ─── Inset Deep (icon wells, toggle tracks, action buttons) ──── */
+.neu-inset-deep {
+  box-shadow:
+    inset 5px 5px 10px rgba(143, 139, 120, 0.6),
+    inset -5px -5px 10px rgba(255, 255, 255, 0.95);
+}
+
+/* ─── Inset Shallow (form inputs, filters) ─────────────────────── */
+.neu-inset-shallow {
+  box-shadow:
+    inset 3px 3px 6px rgba(143, 139, 120, 0.35),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.85);
+}
+
+/* ─── Page Header Drop Shadow ──────────────────────────────────── */
+.neu-header {
+  box-shadow:
+    0 4px 12px rgba(143, 139, 120, 0.2),
+    0 1px 3px rgba(143, 139, 120, 0.15);
+}
+
+/* ─── Primary Button (emerald + depth) ─────────────────────────── */
+.neu-btn-primary {
+  box-shadow:
+    inset 5px 5px 10px rgba(0, 0, 0, 0.4),
+    inset -5px -5px 10px rgba(78, 222, 163, 0.25);
+  transition:
+    box-shadow 0.3s,
+    background 0.3s;
+}
+.neu-btn-primary:hover {
+  box-shadow:
+    inset 5px 5px 10px rgba(0, 0, 0, 0.2),
+    inset -5px -5px 10px rgba(255, 255, 255, 0.15);
+}
+.neu-btn-primary:active {
+  box-shadow:
+    inset 7px 7px 14px rgba(0, 0, 0, 0.5),
+    inset -5px -5px 10px rgba(78, 222, 163, 0.1);
+}
+
+/* ─── Auth CTA Button ──────────────────────────────────────────── */
+.neu-btn-auth {
+  box-shadow:
+    8px 8px 16px rgba(143, 139, 120, 0.6),
+    -8px -8px 16px rgba(255, 255, 255, 0.95);
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+.neu-btn-auth:active {
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.3),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Auth Secondary Button ────────────────────────────────────── */
+.neu-btn-auth-secondary {
+  box-shadow:
+    8px 8px 16px rgba(143, 139, 120, 0.5),
+    -8px -8px 16px rgba(255, 255, 255, 0.95);
+  transition: box-shadow 0.3s;
+}
+.neu-btn-auth-secondary:active {
+  box-shadow:
+    inset 6px 6px 12px rgba(143, 139, 120, 0.5),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.9);
+}
+
+/* ─── Auth Input Field ─────────────────────────────────────────── */
+.neu-input-auth {
+  box-shadow:
+    inset 6px 6px 12px rgba(143, 139, 120, 0.6),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.95);
+}
+
+/* ─── Feature Card Press (raised → inset on hover) ─────────────── */
+.neu-card-press {
+  box-shadow:
+    8px 8px 16px rgba(143, 139, 120, 0.5),
+    -8px -8px 16px rgba(255, 255, 255, 0.95);
+  transition:
+    box-shadow 0.3s,
+    transform 0.3s;
+}
+.neu-card-press:hover {
+  box-shadow:
+    inset 6px 6px 12px rgba(143, 139, 120, 0.5),
+    inset -6px -6px 12px rgba(255, 255, 255, 0.95);
+  transform: translateY(-2px);
+}
+
+/* ─── Icon Well ────────────────────────────────────────────────── */
+.neu-icon-well {
+  box-shadow:
+    inset 4px 4px 8px rgba(143, 139, 120, 0.6),
+    inset -4px -4px 8px rgba(255, 255, 255, 1);
+  transition:
+    box-shadow 0.3s,
+    background 0.3s;
+}
+
+/* ─── Floating Dropdown ────────────────────────────────────────── */
+.neu-dropdown {
+  box-shadow:
+    10px 10px 22px rgba(143, 139, 120, 0.6),
+    -8px -8px 18px rgba(255, 255, 255, 1);
+}
+
+/* ─── Auth Green-tinted Input (login/register/reset forms) ───── */
+.neu-input-green {
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 108, 73, 0.1),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.7);
+}
+
+/* ─── Auth Green CTA Button ────────────────────────────────────── */
+.neu-btn-green {
+  box-shadow:
+    6px 6px 12px rgba(0, 108, 73, 0.3),
+    -6px -6px 12px rgba(255, 255, 255, 0.8);
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+.neu-btn-green:active {
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.3),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Auth Green Secondary Button (outline/social) ─────────────── */
+.neu-btn-green-secondary {
+  box-shadow:
+    6px 6px 12px rgba(0, 108, 73, 0.15),
+    -6px -6px 12px rgba(255, 255, 255, 0.8);
+  transition: box-shadow 0.3s;
+}
+.neu-btn-green-secondary:active {
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 108, 73, 0.1),
+    inset -4px -4px 8px rgba(255, 255, 255, 0.6);
+}
+
+/* ─── Modal / Dialog Container ─────────────────────────────────── */
+.neu-modal {
+  box-shadow:
+    inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(143, 139, 120, 0.4);
+}
+
+/* ─── Badge Inset (status chips, quality tags) ─────────────────── */
+.neu-badge-inset {
+  box-shadow:
+    inset 2px 2px 4px rgba(143, 139, 120, 0.4),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+}
+
+/* ─── Badge Inset Shallow (lighter for subtle tags) ────────────── */
+.neu-badge-inset-light {
+  box-shadow:
+    inset 2px 2px 4px rgba(143, 139, 120, 0.35),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.8);
+}
+
+/* ─── Progress Track (recessed progress bar wells) ─────────────── */
+.neu-progress-track {
+  box-shadow: inset 2px 2px 4px rgba(143, 139, 120, 0.5);
+}
+
+/* ─── Device Row Hover (list item inset on hover) ──────────────── */
+.neu-device-hover:hover {
+  box-shadow:
+    inset 3px 3px 6px rgba(163, 158, 140, 0.15),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.7);
+}
+
+/* ─── Danger Button (emergency stop, destructive actions) ───────── */
+.neu-btn-danger {
+  box-shadow:
+    inset 5px 5px 10px rgba(0, 0, 0, 0.35),
+    inset -5px -5px 10px rgba(255, 100, 100, 0.2);
+  transition:
+    box-shadow 0.3s,
+    background 0.3s;
+}
+.neu-btn-danger:hover {
+  box-shadow:
+    inset 4px 4px 8px rgba(0, 0, 0, 0.2),
+    inset -4px -4px 8px rgba(255, 150, 150, 0.15);
+}
+.neu-btn-danger:active {
+  box-shadow:
+    inset 7px 7px 14px rgba(0, 0, 0, 0.5),
+    inset -5px -5px 10px rgba(255, 100, 100, 0.1);
+}
+
+/* ─── Resume/CTA Button (emerald raised, green-tinted) ─────────── */
+.neu-btn-resume {
+  box-shadow:
+    6px 6px 14px rgba(0, 108, 73, 0.4),
+    -4px -4px 10px rgba(255, 255, 255, 0.6);
+}
+
+/* ─── Icon Well Hover (raised on group-hover) ──────────────────── */
+.group:hover .neu-icon-raise {
+  box-shadow:
+    4px 4px 10px rgba(143, 139, 120, 0.5),
+    -3px -3px 8px rgba(255, 255, 255, 0.9);
+}
+
+/* ─── Landing Icon Well Hover (larger raise for feature cards) ──── */
+.group:hover .neu-icon-raise-lg {
+  box-shadow:
+    6px 6px 12px rgba(143, 139, 120, 0.6),
+    -6px -6px 12px rgba(255, 255, 255, 1);
+}
+
+/* ─── Segmented Control Active (tab active state) ──────────────── */
+.neu-seg-active {
+  box-shadow: 3px 3px 7px rgba(143, 139, 120, 0.5);
+}
+
+/* ─── Segmented Control Idle Hover ─────────────────────────────── */
+.neu-seg-idle:hover {
+  box-shadow:
+    2px 2px 5px rgba(143, 139, 120, 0.45),
+    -2px -2px 5px rgba(255, 255, 255, 0.9);
+}
+
+/* ─── Dropdown Selected Item (inset well) ──────────────────────── */
+.neu-dropdown-selected {
+  box-shadow:
+    inset 3px 3px 6px rgba(143, 139, 120, 0.5),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.7);
+}
+
+/* ─── Dropdown Item Active Press ───────────────────────────────── */
+.neu-dropdown-press:active {
+  box-shadow: inset 3px 3px 6px rgba(143, 139, 120, 0.5);
+}
+
+/* ─── Hero Circle (branded primary deep neumorphic) ────────────── */
+.neu-hero-circle {
+  box-shadow:
+    10px 10px 20px rgba(0, 108, 73, 0.5),
+    -10px -10px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* ─── Hero Circle Small (desktop overlay) ──────────────────────── */
+.neu-hero-circle-sm {
+  box-shadow:
+    10px 10px 20px rgba(0, 108, 73, 0.4),
+    -10px -10px 20px rgba(255, 255, 255, 0.1);
+}
+
+/* ─── Chart Progress Inset (progress bar tracks inside sensor cards) ── */
+.neu-progress-inset {
+  box-shadow:
+    inset 2px 2px 4px rgba(143, 139, 120, 0.65),
+    inset -2px -2px 4px rgba(255, 255, 255, 0.95);
+}
+
+/* ─── Dropdown Active Press (selector button press state) ──────── */
+.neu-selector-press:active {
+  box-shadow:
+    inset 4px 4px 8px rgba(143, 139, 120, 0.55),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.85);
+}
+
+/* ─── Icon Raise on Selection (selected dropdown icon) ─────────── */
+.neu-icon-selected {
+  box-shadow:
+    3px 3px 8px rgba(143, 139, 120, 0.5),
+    -2px -2px 6px rgba(255, 255, 255, 0.85);
+}
+
+/* ─── Stepper Active Press (increment/decrement button press) ──── */
+.neu-stepper-press:active {
+  box-shadow: inset 5px 5px 10px rgba(143, 139, 120, 0.6);
+}
+
+/* ─── Slider Track (deep inset for range controls) ─────────────── */
+.neu-slider-track {
+  box-shadow:
+    inset 6px 6px 12px rgba(143, 139, 120, 0.7),
+    inset -5px -5px 10px rgba(255, 255, 255, 0.9);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   HF Unified Design Tokens
+   Shared classes used to keep button/card/row/selector styling identical
+   across dashboard pages. New code SHOULD use these instead of inlining
+   per-component hover and shadow utilities so that future tweaks happen
+   in one place.
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Primary solid button (Simpan, Aktifkan, Update). Use sizing utilities
+   (px-*, py-*, w-full, text-*) on the element itself — this class only
+   owns colour, hover, focus, press, and disabled state. */
+.hf-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  background-color: var(--primary);
+  color: #ffffff;
+  font-weight: 600;
+  transition: background-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.hf-btn-primary:hover:not(:disabled) {
+  background-color: var(--primary-dark);
+  box-shadow: 0 4px 14px rgba(0, 108, 73, 0.25);
+}
+.hf-btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.hf-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.hf-btn-primary:focus-visible {
+  outline: 2px solid rgba(0, 108, 73, 0.45);
+  outline-offset: 2px;
+}
+
+/* Outline primary button (Edit Profil, Update Sandi). Same hover target —
+   fills with primary green on hover so the contract reads identically. */
+.hf-btn-outline-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  border: 2px solid var(--primary);
+  background-color: transparent;
+  color: var(--primary);
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.hf-btn-outline-primary:hover:not(:disabled) {
+  background-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 108, 73, 0.25);
+}
+.hf-btn-outline-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.hf-btn-outline-primary:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.hf-btn-outline-primary:focus-visible {
+  outline: 2px solid rgba(0, 108, 73, 0.45);
+  outline-offset: 2px;
+}
+
+/* Outline destructive button (Nonaktifkan 2FA, Hapus). */
+.hf-btn-outline-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 1rem;
+  border: 2px solid var(--destructive);
+  background-color: transparent;
+  color: var(--destructive);
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.hf-btn-outline-danger:hover:not(:disabled) {
+  background-color: var(--destructive);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(186, 26, 26, 0.25);
+}
+.hf-btn-outline-danger:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* Standard list-row hover (used in profile sub-menus, settings panels). */
+.hf-row-action {
+  transition: background-color 0.2s, transform 0.1s;
+}
+.hf-row-action:hover {
+  background-color: rgba(0, 108, 73, 0.05);
+}
+.hf-row-action:active {
+  transform: scale(0.99);
+}
+
+/* Static card surface — opaque white panel with subtle shadow + ring. */
+.hf-card {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(143, 139, 120, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+}
+
+/* Interactive card surface — lifts slightly on hover, used for clickable
+   tiles (device/sensor cards, irrigation mode cards). */
+.hf-card-interactive {
+  background-color: #ffffff;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(143, 139, 120, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  transition: transform 0.25s, box-shadow 0.25s, background-color 0.25s;
+}
+.hf-card-interactive:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 22px rgba(143, 139, 120, 0.18), 0 0 0 1px rgba(0, 108, 73, 0.12);
+  background-color: var(--surface-leaf-soft);
+}
+
+/* Native <select> trigger — gives every dropdown the same look + hover. */
+.hf-select {
+  appearance: none;
+  border-radius: 1rem;
+  border: 2px solid var(--surface-muted);
+  background-color: #ffffff;
+  padding: 0.625rem 2.5rem 0.625rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  cursor: pointer;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+.hf-select:hover {
+  border-color: var(--primary);
+  background-color: rgba(0, 108, 73, 0.04);
+}
+.hf-select:focus-visible {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(0, 108, 73, 0.18);
+}
+
+/* ─── Reference sage-neumorphic surface ────────────────────────────
+   Mirrors the modal Pengaturan Irigasi pattern (sage bg + double border +
+   neu-modal inset). Use on any modal/panel container so the whole app
+   uses one container surface, not bg-white flat + bg-sage neumorphic
+   side-by-side. */
+.hf-surface-sage {
+  background-color: var(--surface-sage);
+  border-radius: 1rem;
+  border: 3px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 3px 3px 6px rgba(255, 255, 255, 0.9),
+    inset -3px -3px 6px rgba(143, 139, 120, 0.4);
+}
+
+/* Inset content card placed on top of `.hf-surface-sage`. Equivalent to
+   the inner threshold cards in the Irrigation Otomatis modal. */
+.hf-panel-inset {
+  background-color: var(--surface-sage);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    inset 3px 3px 6px rgba(143, 139, 120, 0.6),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.95);
+}
+
+/* Raised content card variant — used where the inner card should feel
+   slightly elevated (e.g. the per-pump rows in Manual mode). */
+.hf-panel-raised {
+  background-color: var(--surface-sage);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    3px 3px 8px rgba(143, 139, 120, 0.35),
+    -3px -3px 8px rgba(255, 255, 255, 0.9);
+}
+
+/* Circular icon well used to the left of titles in sage cards. */
+.hf-icon-well {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 9999px;
+  background-color: transparent;
+  box-shadow:
+    inset 3px 3px 6px rgba(143, 139, 120, 0.6),
+    inset -3px -3px 6px rgba(255, 255, 255, 0.95);
+}
+
+/* ─── Maintenance Gate — shimmer progress bar ──────────────────── */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   Scroll Reveal — CSS-only approach (anti hydration flicker)
+   
+   Uses pure CSS transitions triggered by IntersectionObserver.
+   SSR and client both render with opacity:0/translateY — no mismatch.
+   ═══════════════════════════════════════════════════════════════════ */
+
+.scroll-reveal-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0ms),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease,
+    background-color 0.3s ease;
+  will-change: opacity, transform;
+}
+
+.scroll-reveal-card.is-visible,
+.scroll-reveal-card[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.scroll-reveal-text {
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 0.6s ease-out var(--reveal-delay, 0ms),
+    transform 0.6s ease-out var(--reveal-delay, 0ms);
+}
+
+.scroll-reveal-text.is-visible,
+.scroll-reveal-text[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal-card,
+  .scroll-reveal-text {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
