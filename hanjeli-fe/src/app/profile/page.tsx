@@ -7,6 +7,7 @@ import { useNotifications } from "@/contexts/notification-context"
 import { formatDistanceToNow } from "date-fns"
 import { id as idLocale, enUS as enLocale } from "date-fns/locale"
 import Link from "next/link"
+import Image from "next/image"
 import {
   User,
   Globe,
@@ -1846,23 +1847,32 @@ export default function ProfilePage() {
 
       {/* ═══════════ MOBILE LAYOUT (< lg) ═══════════ */}
       <div className="lg:hidden">
-        {/* Profile Header — same sage gradient as other pages for consistency */}
+        {/* Profile Header — unified dark premium style to support photo background */}
         <div
-          className="bg-linear-to-b from-surface-sage-soft to-surface-sage px-5 md:px-6 pb-8 neu-header border-b border-white/50"
+          className="relative overflow-hidden bg-linear-to-b from-primary-dark to-primary px-5 md:px-6 pb-8 border-b border-primary-shade"
           style={{ paddingTop: 'max(56px, calc(env(safe-area-inset-top, 0px) + 32px))' }}
         >
-          <div className="flex flex-col items-center text-center gap-3">
+          {/* Background Image */}
+          <Image
+            src="https://images.unsplash.com/photo-1559628233-100c798642d4?w=1200&q=80"
+            alt="Farm landscape"
+            fill
+            priority
+            className="object-cover pointer-events-none"
+          />
+          <div className="absolute inset-0 bg-primary-dark/50" />
+          <div className="relative z-10 flex flex-col items-center text-center gap-3">
             <UserAvatar
               src={userAvatarUrl}
               name={userName}
-              className="h-20 w-20 md:h-24 md:w-24 ring-4 ring-white shadow-md"
-              iconClassName="h-10 w-10 md:h-12 md:w-12 text-2xl"
+              className="h-20 w-20 md:h-24 md:w-24 ring-4 ring-white/30 shadow-xl"
+              iconClassName="h-10 w-10 md:h-12 md:w-12 text-2xl text-white"
             />
             <div>
-              <h2 className="text-lg md:text-xl font-semibold text-foreground">{userName}</h2>
+              <h2 className="text-lg md:text-xl font-bold text-white font-(family-name:--font-jakarta)">{userName}</h2>
               <div className="flex flex-col items-center gap-1 mt-0.5">
-                <p className="text-sm md:text-base text-foreground/60">{userEmail}</p>
-                <div className="inline-flex items-center rounded-full bg-primary/10 border border-primary/20 px-2.5 py-0.5 text-[10px] md:text-xs font-semibold text-primary shadow-sm">
+                <p className="text-sm md:text-base text-white/80">{userEmail}</p>
+                <div className="inline-flex items-center rounded-full bg-white/20 backdrop-blur-sm border border-white/30 px-2.5 py-0.5 text-[10px] md:text-xs font-semibold text-white shadow-sm">
                   {userRole}
                 </div>
               </div>
@@ -2059,12 +2069,21 @@ export default function ProfilePage() {
 
             {/* ── HERO PROFILE CARD — green gradient ── */}
             <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-primary-dark via-primary to-primary-shade shadow-[0_20px_50px_-20px_rgba(0,108,73,0.55)]">
+              {/* Background Image */}
+              <Image
+                src="https://images.unsplash.com/photo-1559628233-100c798642d4?w=1200&q=80"
+                alt="Profile background"
+                fill
+                priority
+                className="object-cover pointer-events-none"
+              />
+              <div className="absolute inset-0 bg-primary-dark/50" />
               {/* Decorative organic curves */}
               <div className="pointer-events-none absolute inset-0 opacity-20">
                 <div className="absolute -right-10 -top-16 h-64 w-64 rounded-full bg-leaf/30 blur-3xl" />
                 <div className="absolute right-32 top-4 h-32 w-32 rounded-full bg-primary-fixed-dim/20 blur-2xl" />
               </div>
-              <div className="relative flex items-center justify-between gap-6 px-8 py-7">
+              <div className="relative z-10 flex items-center justify-between gap-6 px-8 py-7">
                 <div className="flex items-center gap-5 min-w-0">
                   <UserAvatar
                     src={userAvatarUrl}
@@ -2260,7 +2279,14 @@ export default function ProfilePage() {
                                     const baseVal = fromDisplayValue(parseFloat(e.target.value) || 0, param.key)
                                     setSensorThresholds((prev) => ({ ...prev, [param.key]: { ...prev[param.key], min: baseVal } }))
                                   }}
-                                  onBlur={() => handleSensorThresholdChange(param.key, th.min, th.max)}
+                                  onBlur={() => {
+                                    let finalMin = th.min;
+                                    if (finalMin >= th.max) {
+                                      finalMin = th.max - param.step;
+                                      setSensorThresholds((prev) => ({ ...prev, [param.key]: { ...prev[param.key], min: finalMin } }))
+                                    }
+                                    handleSensorThresholdChange(param.key, finalMin, th.max)
+                                  }}
                                   className="w-full rounded-xl border border-surface-muted bg-surface-sage neu-inset-shallow px-3 py-2 text-sm font-semibold text-foreground text-center focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                 />
                               </div>
@@ -2277,7 +2303,14 @@ export default function ProfilePage() {
                                     const baseVal = fromDisplayValue(parseFloat(e.target.value) || 0, param.key)
                                     setSensorThresholds((prev) => ({ ...prev, [param.key]: { ...prev[param.key], max: baseVal } }))
                                   }}
-                                  onBlur={() => handleSensorThresholdChange(param.key, th.min, th.max)}
+                                  onBlur={() => {
+                                    let finalMax = th.max;
+                                    if (finalMax <= th.min) {
+                                      finalMax = th.min + param.step;
+                                      setSensorThresholds((prev) => ({ ...prev, [param.key]: { ...prev[param.key], max: finalMax } }))
+                                    }
+                                    handleSensorThresholdChange(param.key, th.min, finalMax)
+                                  }}
                                   className="w-full rounded-xl border border-surface-muted bg-surface-sage neu-inset-shallow px-3 py-2 text-sm font-semibold text-foreground text-center focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
                                 />
                               </div>

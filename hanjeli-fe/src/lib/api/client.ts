@@ -92,7 +92,7 @@ function refreshSession(): Promise<AuthTokensResponse> {
         { headers: { 'Content-Type': 'application/json' } },
       )
       .then(({ data }) => {
-        storeAuthSession(data);
+        storeAuthSession(data, { isRefresh: true });
         return data;
       })
       .finally(() => {

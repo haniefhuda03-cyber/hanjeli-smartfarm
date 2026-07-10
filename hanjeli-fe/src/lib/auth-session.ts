@@ -90,7 +90,10 @@ export function getRefreshToken() {
   return localStorage.getItem(REFRESH_TOKEN_KEY)
 }
 
-export function storeAuthSession(session: AuthTokensResponse) {
+export function storeAuthSession(
+  session: AuthTokensResponse,
+  options?: { isRefresh?: boolean },
+) {
   if (!canUseBrowserStorage()) return
 
   localStorage.setItem(ACCESS_TOKEN_KEY, session.access_token)
@@ -107,9 +110,15 @@ export function storeAuthSession(session: AuthTokensResponse) {
   // with a fresh refresh token, but we keep the ORIGINAL start so the absolute
   // cap is not slid forward — the session still ends 12h after first login.
   const now = Date.now()
-  const existingStart = Number(localStorage.getItem(SESSION_STARTED_AT_KEY))
-  const startedAt =
-    Number.isFinite(existingStart) && existingStart > 0 ? existingStart : now
+  let startedAt = now
+
+  if (options?.isRefresh) {
+    const existingStart = Number(localStorage.getItem(SESSION_STARTED_AT_KEY))
+    if (Number.isFinite(existingStart) && existingStart > 0) {
+      startedAt = existingStart
+    }
+  }
+
   localStorage.setItem(SESSION_STARTED_AT_KEY, String(startedAt))
 
   // Effective expiry = whichever cap is sooner.

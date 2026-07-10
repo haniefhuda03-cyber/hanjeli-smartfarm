@@ -292,9 +292,9 @@ export default function HomePage() {
                 {getTimeGreeting(t)}{name ? `, ${name}` : ""}
               </h1>
             </div>
-            <div className="flex items-center gap-2.5 shrink-0 ml-4">
+            <div className="flex items-center gap-3 md:gap-4 shrink-0 ml-4 mb-1 md:mb-1.5">
               {/* Weather Badge — glassmorphism, height matches icons */}
-              <div className="hidden sm:flex items-center gap-2 rounded-full bg-white/15 backdrop-blur-md border border-white/25 pl-3 pr-4 h-11">
+              <div className="hidden sm:flex items-center justify-center gap-2.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 px-4 md:px-5 h-12 md:h-14 pb-[2px]">
                 {(() => {
                   const condition = weatherData?.condition?.toLowerCase() || '';
                   let WeatherIcon = Sun;
@@ -322,8 +322,8 @@ export default function HomePage() {
                   
                   return (
                     <>
-                      <WeatherIcon className={cn("h-[18px] w-[18px] shrink-0", colorClass)} />
-                      <span className="text-sm font-bold text-white whitespace-nowrap">
+                      <WeatherIcon className={cn("h-5 w-5 md:h-[22px] md:w-[22px] shrink-0", colorClass)} />
+                      <span className="text-sm md:text-base font-bold text-white whitespace-nowrap leading-none">
                         {weatherData?.temperature != null
                           ? `${weatherData.temperature}°C, ${localizedCondition}`
                           : t('home.weatherUnavailable', 'Cuaca tidak tersedia')}
@@ -340,14 +340,14 @@ export default function HomePage() {
                   aria-expanded={showNotifications}
                   aria-haspopup="dialog"
                   className={cn(
-                    "home-notif-button group flex h-11 w-11 items-center justify-center rounded-full backdrop-blur-xl transition-all duration-300 border border-white/20 active:scale-95",
+                    "home-notif-button group flex h-12 w-12 md:h-14 md:w-14 items-center justify-center rounded-full backdrop-blur-xl transition-all duration-300 border border-white/20 active:scale-95",
                     isRinging ? "bg-white/20 shadow-[0_0_15px_rgba(255,255,255,0.3)]" : ""
                   )}
                 >
-                  <Bell className={cn("h-5 w-5 text-white/90 transition-colors duration-300 group-hover:text-white", isRinging && "animate-[bell-ring_1s_ease-in-out_infinite]")} />
+                  <Bell className={cn("h-5 w-5 md:h-6 md:w-6 text-white/90 transition-colors duration-300 group-hover:text-white", isRinging && "animate-[bell-ring_1s_ease-in-out_infinite]")} />
                 </button>
                 {unreadCount > 0 && (
-                  <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-[10px] font-bold text-white">
+                  <span className="absolute -top-1 -right-1 flex h-5 w-5 md:h-6 md:w-6 items-center justify-center rounded-full bg-destructive text-[10px] md:text-xs font-bold text-white">
                     {unreadCount > 9 ? '9+' : unreadCount}
                   </span>
                 )}
@@ -356,8 +356,8 @@ export default function HomePage() {
               <UserAvatar
                 src={avatarUrl}
                 name={name}
-                className="h-11 w-11 ring-2 ring-white/30 shadow-lg"
-                iconClassName="h-5 w-5 text-sm text-white"
+                className="h-12 w-12 md:h-14 md:w-14 ring-2 ring-white/30 shadow-lg"
+                iconClassName="h-5 w-5 md:h-6 md:w-6 text-sm md:text-base text-white"
               />
             </div>
           </div>

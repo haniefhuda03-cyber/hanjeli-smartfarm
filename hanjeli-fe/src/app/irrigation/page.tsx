@@ -41,7 +41,7 @@ const daysOfWeek = [
 ]
 
 type ScheduleEntry = {
-  id: number
+  id: number | string
   name: string
   days: string[]
   startTime: string
@@ -121,7 +121,8 @@ function ThresholdRangeControl({
               min={0}
               max={maxValue - 1}
               value={minValue}
-              onChange={(event) => applyMin(normalizeRangeNumber(event.target.value, minValue))}
+              onChange={(event) => onMinChange(normalizeRangeNumber(event.target.value, minValue))}
+              onBlur={() => applyMin(minValue)}
               aria-label={`${title} minimum`}
               className="h-11 min-w-0 flex-1 bg-transparent px-1 text-center text-sm font-bold text-foreground focus:outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
@@ -154,7 +155,8 @@ function ThresholdRangeControl({
               min={minValue + 1}
               max={upperBound}
               value={maxValue}
-              onChange={(event) => applyMax(normalizeRangeNumber(event.target.value, maxValue))}
+              onChange={(event) => onMaxChange(normalizeRangeNumber(event.target.value, maxValue))}
+              onBlur={() => applyMax(maxValue)}
               aria-label={`${title} maximum`}
               className="h-11 min-w-0 flex-1 bg-transparent px-1 text-center text-sm font-bold text-foreground focus:outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             />
@@ -331,11 +333,11 @@ export default function IrrigationPage() {
   }, [schedulesData])
 
   const [isScheduleModalOpen, setIsScheduleModalOpen] = useState(false)
-  const [editingScheduleId, setEditingScheduleId] = useState<number | null>(null)
+  const [editingScheduleId, setEditingScheduleId] = useState<number | string | null>(null)
   const [isAddingNew, setIsAddingNew] = useState(false)
   const [pendingSchedule, setPendingSchedule] = useState<ScheduleEntry | null>(null)
 
-  const openScheduleModal = (id?: number) => {
+  const openScheduleModal = (id?: number | string) => {
     if (id !== undefined) {
       // Edit existing
       const existing = schedules.find(s => s.id === id)
@@ -345,8 +347,8 @@ export default function IrrigationPage() {
       setIsScheduleModalOpen(true)
     } else {
       // Add new - don't add to schedules yet
-      const newId = schedules.length > 0 ? Math.max(...schedules.map(s => s.id)) + 1 : 1
-      const newSchedule: ScheduleEntry = { id: newId, name: `Jadwal ${newId}`, days: [], startTime: '07:00', endTime: '07:30', active: true }
+      const newId = Date.now().toString()
+      const newSchedule: ScheduleEntry = { id: newId, name: `Jadwal ${schedules.length + 1}`, days: [], startTime: '07:00', endTime: '07:30', active: true }
       setPendingSchedule(newSchedule)
       setEditingScheduleId(newId)
       setIsAddingNew(true)
@@ -450,11 +452,11 @@ export default function IrrigationPage() {
     }
   }
 
-  const toggleDay = (scheduleId: number, dayId: string) => {
+  const toggleDay = (scheduleId: number | string, dayId: string) => {
     setPendingSchedule(prev => prev ? { ...prev, days: prev.days.includes(dayId) ? prev.days.filter(d => d !== dayId) : [...prev.days, dayId] } : null)
   }
 
-  const updateSchedule = (scheduleId: number, field: keyof ScheduleEntry, value: string) => {
+  const updateSchedule = (scheduleId: number | string, field: keyof ScheduleEntry, value: string) => {
     setPendingSchedule(prev => prev ? { ...prev, [field]: value } : null)
   }
 
@@ -462,7 +464,7 @@ export default function IrrigationPage() {
     openScheduleModal()
   }
 
-  const handleTimeChange = (scheduleId: number, field: 'startTime' | 'endTime', value: string) => {
+  const handleTimeChange = (scheduleId: number | string, field: 'startTime' | 'endTime', value: string) => {
     setPendingSchedule(prev => {
       if (!prev) return null;
       
@@ -521,7 +523,7 @@ export default function IrrigationPage() {
     return parts.join(', ');
   }
 
-  const removeSchedule = (id: number) => {
+  const removeSchedule = (id: number | string) => {
     deleteScheduleMutation.mutate(String(id))
   }
   
@@ -1043,14 +1045,34 @@ export default function IrrigationPage() {
           <div className="absolute inset-0 bg-black/50 transition-opacity" onClick={closeScheduleModal} aria-hidden="true" />
           <div className="relative w-full max-w-[90vw] sm:max-w-md bg-surface-sage rounded-2xl border-[3px] border-white/60 animate-in zoom-in-95 overflow-hidden flex flex-col" style={{ boxShadow: 'inset 3px 3px 6px rgba(255,255,255,0.9), inset -3px -3px 6px rgba(143,139,120,0.4)' }}>
             {(() => {
-              const schedule = isAddingNew ? pendingSchedule : schedules.find(s => s.id === editingScheduleId);
+              const schedule = pendingSchedule;
               if (!schedule) return null;
 
               const updateField = (field: keyof ScheduleEntry, value: string) => {
+                const processUpdate = (prev: ScheduleEntry | null) => {
+                  if (!prev) return prev;
+                  let newSchedule = { ...prev, [field]: value };
+                  
+                  if (field === 'startTime' || field === 'endTime') {
+                    if (newSchedule.endTime <= newSchedule.startTime) {
+                      if (field === 'startTime') {
+                        const [h, m] = newSchedule.startTime.split(':').map(Number);
+                        const d = new Date(); d.setHours(h, m + 1, 0, 0);
+                        newSchedule.endTime = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+                      } else {
+                        const [h, m] = newSchedule.startTime.split(':').map(Number);
+                        const d = new Date(); d.setHours(h, m + 1, 0, 0);
+                        newSchedule.endTime = `${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}`;
+                      }
+                    }
+                  }
+                  return newSchedule;
+                };
+
                 if (isAddingNew) {
-                  setPendingSchedule(prev => prev ? { ...prev, [field]: value } : prev)
+                  setPendingSchedule(processUpdate)
                 } else {
-                  updateSchedule(schedule.id, field, value)
+                  setPendingSchedule(processUpdate) // Both just modify pendingSchedule now
                 }
               }
 
